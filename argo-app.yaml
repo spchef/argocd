@@ -1,0 +1,18 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: demo-nginx
+  namespace: argocd
+spec:
+  project: default # project name 
+  source:
+    repoURL: 'https://github.com/spchef/argocd.git' # K8s manifest exists in this repo 
+    targetRevision: HEAD # git revision to which it to be fetched - can also use branch format as well 
+    path: argo # In this directory 
+  destination:
+    server: 'https://kubernetes.default.svc' # Kubernetes cluster context 
+    namespace: nginx
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
